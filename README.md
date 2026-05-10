@@ -261,29 +261,7 @@ dotnet publish -c Release -o ./publish
 - [ ] Verificação de documentos
 - [ ] Relatórios e analytics
 
----
 
-## 🤝 Contribuir
-
-Contribuições são bem-vindas! Por favor, faça um fork do projeto e envie suas melhorias.
-
----
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT.
-
----
-
-## 👨‍💼 Suporte
-
-Para dúvidas ou problemas:
-
-- 📧 Email: info@cuidadora.pt
-- 🐛 Issues: [GitHub Issues](#)
-- 💬 Discussões: [GitHub Discussions](#)
-
----
 
 ## 🎓 Créditos
 
@@ -297,10 +275,3 @@ Desenvolvido como uma plataforma profissional e segura para conectar famílias c
 - TailwindCSS
 - Vite
 - JWT Authentication
-
----
-
-**Última atualização:** Dezembro 2024  
-**Versão:** 1.0.0
-
-Aproveite! 🎉
