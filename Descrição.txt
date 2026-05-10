@@ -1,0 +1,14 @@
+Site para pais a procura de alguém que fique com as crianças
+
+Stack:
+
+Backend: ASP.NET Core
+DB: MySQL
+Frontend: React
+
+Funcionalidades:
+
+Registo/login (pais e babás)
+Criar perfil (nome, localização, preço/hora)
+Pesquisa de babás
+Sistema de contacto simples
