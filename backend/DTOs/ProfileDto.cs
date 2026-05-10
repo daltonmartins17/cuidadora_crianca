@@ -17,6 +17,7 @@ namespace CuidadoraDeCrianca.DTOs
         public double AverageRating { get; set; }
         public int TotalReviews { get; set; }
         public bool IsAvailable { get; set; }
+        public string UserType { get; set; } = string.Empty;
         public string Specializations { get; set; } = string.Empty;
         public string ProfileImageUrl { get; set; } = string.Empty;
     }

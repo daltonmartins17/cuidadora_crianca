@@ -76,6 +76,7 @@ namespace CuidadoraDeCrianca.Controllers
                 AverageRating = p.AverageRating,
                 TotalReviews = p.TotalReviews,
                 IsAvailable = p.IsAvailable,
+                UserType = p.User.UserType,
                 Specializations = p.Specializations,
                 ProfileImageUrl = p.User.ProfileImageUrl
             }).ToList();
@@ -109,6 +110,7 @@ namespace CuidadoraDeCrianca.Controllers
                 AverageRating = profile.AverageRating,
                 TotalReviews = profile.TotalReviews,
                 IsAvailable = profile.IsAvailable,
+                UserType = profile.User.UserType,
                 Specializations = profile.Specializations,
                 ProfileImageUrl = profile.User.ProfileImageUrl
             };
@@ -257,6 +259,7 @@ namespace CuidadoraDeCrianca.Controllers
                 AverageRating = profile.AverageRating,
                 TotalReviews = profile.TotalReviews,
                 IsAvailable = profile.IsAvailable,
+                UserType = profile.User.UserType,
                 Specializations = profile.Specializations,
                 ProfileImageUrl = profile.User.ProfileImageUrl
             };

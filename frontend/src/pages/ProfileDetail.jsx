@@ -21,6 +21,7 @@ const ProfileDetail = ({ userId }) => {
   });
   const [reviewLoading, setReviewLoading] = useState(false);
   const [reviewSuccess, setReviewSuccess] = useState(false);
+  const [reviewError, setReviewError] = useState("");
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
 
@@ -74,6 +75,8 @@ const ProfileDetail = ({ userId }) => {
       return;
     }
 
+    setReviewError("");
+
     if (!reviewData.title || !reviewData.comment) {
       alert("Preencha o título e o comentário da avaliação.");
       return;
@@ -94,12 +97,13 @@ const ProfileDetail = ({ userId }) => {
       setReviewData({ rating: 5, title: "", comment: "" });
       setTimeout(() => setReviewSuccess(false), 2500);
     } catch (error) {
-      alert(
+      const message =
         error.response?.data?.message ||
-          error.response?.data ||
-          error.message ||
-          "Erro ao enviar avaliação",
-      );
+        error.response?.data ||
+        error.message ||
+        "Erro ao enviar avaliação";
+      setReviewError(message);
+      alert(message);
     } finally {
       setReviewLoading(false);
     }
@@ -266,85 +270,91 @@ const ProfileDetail = ({ userId }) => {
               </div>
             )}
 
-            {currentUser && currentUser.id !== profile.userId && (
-              <div className="mt-6 border-t pt-6">
-                <h3 className="text-lg font-semibold mb-3">
-                  Avaliar esta babá
-                </h3>
-                {currentUser.userType === "Parent" ? (
-                  <div className="space-y-3">
-                    {reviewSuccess && (
-                      <div className="text-sm text-green-600 font-semibold">
-                        Avaliação enviada com sucesso!
+            {currentUser &&
+              Number(currentUser.id) !== Number(profile.userId) && (
+                <div className="mt-6 border-t pt-6">
+                  <h3 className="text-lg font-semibold mb-3">
+                    Avaliar esta babá
+                  </h3>
+                  {currentUser.userType?.toLowerCase() === "parent" ? (
+                    <div className="space-y-3">
+                      {reviewSuccess && (
+                        <div className="text-sm text-green-600 font-semibold">
+                          Avaliação enviada com sucesso!
+                        </div>
+                      )}
+                      {reviewError && (
+                        <div className="text-sm text-red-600 font-semibold">
+                          {reviewError}
+                        </div>
+                      )}
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Nota
+                        </label>
+                        <input
+                          type="number"
+                          min="1"
+                          max="5"
+                          value={reviewData.rating}
+                          onChange={(e) =>
+                            setReviewData((prev) => ({
+                              ...prev,
+                              rating: parseInt(e.target.value, 10),
+                            }))
+                          }
+                          className="input-field"
+                        />
                       </div>
-                    )}
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Nota
-                      </label>
-                      <input
-                        type="number"
-                        min="1"
-                        max="5"
-                        value={reviewData.rating}
-                        onChange={(e) =>
-                          setReviewData((prev) => ({
-                            ...prev,
-                            rating: parseInt(e.target.value, 10),
-                          }))
-                        }
-                        className="input-field"
-                      />
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Título
+                        </label>
+                        <input
+                          type="text"
+                          value={reviewData.title}
+                          onChange={(e) =>
+                            setReviewData((prev) => ({
+                              ...prev,
+                              title: e.target.value,
+                            }))
+                          }
+                          placeholder="Resumo rápido da sua avaliação"
+                          className="input-field"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Comentário
+                        </label>
+                        <textarea
+                          value={reviewData.comment}
+                          onChange={(e) =>
+                            setReviewData((prev) => ({
+                              ...prev,
+                              comment: e.target.value,
+                            }))
+                          }
+                          rows="4"
+                          placeholder="Conte sobre a sua experiência com esta babá"
+                          className="input-field"
+                        ></textarea>
+                      </div>
+                      <button
+                        onClick={handleSubmitReview}
+                        disabled={reviewLoading}
+                        className="btn-primary w-full"
+                      >
+                        {reviewLoading ? "A enviar..." : "Enviar Avaliação"}
+                      </button>
                     </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Título
-                      </label>
-                      <input
-                        type="text"
-                        value={reviewData.title}
-                        onChange={(e) =>
-                          setReviewData((prev) => ({
-                            ...prev,
-                            title: e.target.value,
-                          }))
-                        }
-                        placeholder="Resumo rápido da sua avaliação"
-                        className="input-field"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Comentário
-                      </label>
-                      <textarea
-                        value={reviewData.comment}
-                        onChange={(e) =>
-                          setReviewData((prev) => ({
-                            ...prev,
-                            comment: e.target.value,
-                          }))
-                        }
-                        rows="4"
-                        placeholder="Conte sobre a sua experiência com esta babá"
-                        className="input-field"
-                      ></textarea>
-                    </div>
-                    <button
-                      onClick={handleSubmitReview}
-                      disabled={reviewLoading}
-                      className="btn-primary w-full"
-                    >
-                      {reviewLoading ? "A enviar..." : "Enviar Avaliação"}
-                    </button>
-                  </div>
-                ) : (
-                  <p className="text-sm text-gray-600">
-                    Apenas pais podem avaliar babás.
-                  </p>
-                )}
-              </div>
-            )}
+                  ) : (
+                    <p className="text-sm text-gray-600">
+                      Apenas pais podem avaliar babás.
+                    </p>
+                  )}
+                </div>
+              )}
 
             {/* Specializations */}
             {profile.specializations && (

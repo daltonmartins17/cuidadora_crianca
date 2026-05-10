@@ -48,7 +48,9 @@ namespace CuidadoraDeCrianca.Controllers
             if (createReviewDto.Rating < 1 || createReviewDto.Rating > 5)
                 return BadRequest("Avaliação deve estar entre 1 e 5");
 
-            var profile = await _context.Profiles.FindAsync(createReviewDto.ProfileId);
+            var profile = await _context.Profiles
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p => p.Id == createReviewDto.ProfileId);
             if (profile == null)
                 return NotFound("Perfil não encontrado");
 
@@ -56,11 +58,14 @@ namespace CuidadoraDeCrianca.Controllers
             if (reviewer == null)
                 return NotFound("Utilizador não encontrado");
 
-            if (reviewer.UserType != "Parent")
+            if (!string.Equals(reviewer.UserType, "Parent", StringComparison.OrdinalIgnoreCase))
                 return Forbid("Apenas pais podem avaliar babás");
 
             if (profile.UserId == reviewerId)
                 return BadRequest("Não pode avaliar o seu próprio perfil");
+
+            if (profile.User == null || !string.Equals(profile.User.UserType, "BabySitter", StringComparison.OrdinalIgnoreCase))
+                return BadRequest("Apenas perfis de babás podem receber avaliações");
 
             var review = new Review
             {

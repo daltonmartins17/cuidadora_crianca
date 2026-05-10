@@ -33,11 +33,11 @@ Abra o MySQL e execute:
 
 ```sql
 -- Criar base de dados
-CREATE DATABASE CuidadoraDeCriancaDb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE baba CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Criar utilizador (opcional, para melhor segurança)
-CREATE USER 'cuidadora_user'@'localhost' IDENTIFIED BY 'sua_senha_segura';
-GRANT ALL PRIVILEGES ON CuidadoraDeCriancaDb.* TO 'cuidadora_user'@'localhost';
+CREATE USER 'baba'@'localhost' IDENTIFIED BY 'sua_senha_segura';
+GRANT ALL PRIVILEGES ON baba.* TO 'baba'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -260,8 +260,6 @@ dotnet publish -c Release -o ./publish
 - [ ] Upload de fotos
 - [ ] Verificação de documentos
 - [ ] Relatórios e analytics
-
-
 
 ## 🎓 Créditos
 
